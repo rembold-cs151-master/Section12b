@@ -87,10 +87,11 @@ responsibilities won’t help you.</li>
 error occurred: pay attention to this!
 <ul>
 <li>Keep in mind that this is where the error occurred,
-<strong>not</strong> necessarily where the mistake occurred. But is a
+<strong>not</strong> necessarily where the mistake occurred. But it is a
 good starting point.</li>
 <li>If you can’t find an error near this point, where else do you have
-code that creates or modifies the object involved?</li>
+code that creates or modifies the object involved? Probably in that
+object’s class definition?</li>
 </ul></li>
 <li>Are you getting an illegal operation error? Go to just before that
 line and print out the elements involved. Something is not what you
@@ -112,9 +113,10 @@ class that stores information about potential rewards that could be tied
 to a problem, including the text that should display to the screen and a
 points modifier.
 <ul>
-<li>The data file is read in the <code class="python">TMCourse</code>
-constructor when a new course is created, and every reward is randomly
-dispersed amongst the possible questions.</li>
+<li>The rewards data file is read inside the
+<code class="python">TMCourse</code> constructor when a new course is
+created, and every reward is randomly dispersed amongst the possible
+questions.</li>
 </ul></li>
 <li>Unfortunately there are several mistakes in the implementation. Your
 task in this problem is to identify those mistakes and fix them so that
@@ -127,9 +129,64 @@ the program runs as intended.
 </section>
 <section id="issue-1" class="slide level2">
 <h2>Issue 1</h2>
+<div>
 <ul>
-<li>Likely the first issue you are faced with is</li>
+<li class="fragment">Likely the first issue you are faced with is about
+a string having no attribute <code class="python">add_reward</code>,
+which is true!</li>
+<li class="fragment">It is important not to confuse the name of
+something with the custom object representing that thing
+<ul>
+<li class="fragment">The name of a question is not the same thing as the
+<code class="python">TMQuestion</code> itself</li>
+</ul></li>
+<li class="fragment">The fix? Use the name of the question as the key to
+the questions dictionary to retrieve the actual corresponding object,
+and then <code class="python">add_reward</code> to that object</li>
 </ul>
+</div>
+</section>
+<section id="issue-2" class="slide level2">
+<h2>Issue 2</h2>
+<div>
+<ul>
+<li class="fragment">The second issue you will likely face is when you
+come across one of the rewarded questions (which might require a bit of
+testing!) that will complain about list objects having no
+<code class="python">get_text</code> attribute.</li>
+<li class="fragment">The list in question is the
+<code class="python">rewards</code> variable that was returned by
+<code class="python">.get_rewards()</code>, which looks to contain a
+list of all the rewards associated with a problem.</li>
+<li class="fragment">Individual reward objects though have a method
+<code class="python">get_text()</code>, so likely what was desired is to
+loop over the rewards and print the text of each.</li>
+</ul>
+</div>
+</section>
+<section id="issue-3" class="slide level2">
+<h2>Issue 3</h2>
+<div>
+<ul>
+<li class="fragment">The third issue can be subtle without good
+testing.</li>
+<li class="fragment">The <code class="python">rewards.txt</code> file
+shows 3 rewards in it, each of which should be assigned to a question.
+<ul>
+<li class="fragment">Can you find them all? Or are some missing?</li>
+</ul></li>
+<li class="fragment">Check to ensure the objects you read in from a file
+have all the expected things! Here we are missing two rewards!</li>
+<li class="fragment">The culprit has to do with the empty row between
+each of the rewards. Without changing the
+<code class="python">rewards.txt</code> file itself, how could you fix
+this?
+<ul>
+<li class="fragment">Explicitly read in an extra line after the
+multiplier</li>
+</ul></li>
+</ul>
+</div>
 </section>
 <section id="problem-2" class="slide level2">
 <h2>Problem 2</h2>
@@ -180,7 +237,7 @@ questions in the Teaching Machine.</li>
 data-auto-animate="true">
 <h2
 data-auto-animate="true"><code class="python">TMCourse.run</code></h2>
-<pre data-id="mycode"><code class="mypython" style="max-height:950px; font-size:.8em" data-line-numbers="|8-9">def run(self):
+<pre data-id="mycode"><code class="mypython" style="max-height:900px; font-size:.8em" data-line-numbers="|8-9">def run(self):
     """Steps through the questions in this course."""
     current = "START"
     while current != "EXIT":
@@ -201,7 +258,7 @@ data-auto-animate="true"><code class="python">TMCourse.run</code></h2>
 data-auto-animate="true">
 <h2
 data-auto-animate="true"><code class="python">TMCourse.run</code></h2>
-<pre data-id="mycode"><code class="mypython" style="max-height:950px; font-size:.8em" data-line-numbers="8,11|9-10|19-20">def run(self):
+<pre data-id="mycode"><code class="mypython" style="max-height:900px; font-size:.8em" data-line-numbers="8,11|9-10|19-20">def run(self):
     """Steps through the questions in this course."""
     current = "START"
     while current != "EXIT":
