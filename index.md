@@ -27,9 +27,26 @@ content_url: https://github.com/rembold-cs151-master/Section12b
   - Test early, test often. Write the minimal amount of code necessary before running the program to see if that code works. This constrains possible errors (usually) to the small piece of code that you just wrote.
   - Choosing strong variable names can be a lifesaver. Naming things is difficult, but naming things well can save you hours of frustrated debugging only to realize that you confused your variables.
   - Always keep a mental model (or make yourself a picture you can refer to) about where in the program certain things are happening. This is one reason why we break things up into classes and separate those classes across multiple files, but if you don't have a mental model of what is responsible for what, this division of responsibilities won't help you.
-  - Remember to **save** a file after you have edited it! 
   :::
 
+## Drilling In
+- Error messages will tell you exactly in what file and what line the error occurred: pay attention to this!
+  - Keep in mind that this is where the error occurred, **not** necessarily where the mistake occurred. But is a good starting point.
+  - If you can't find an error near this point, where else do you have code that creates or modifies the object involved?
+- Are you getting an illegal operation error? Go to just before that line and print out the elements involved. Something is not what you think it is.
+- Don't forget that you can set break points in VSCode and run the code in debug mode! This can be easier sometimes than just using print statements.
+
+
+## Problem 1
+- In the materials for this section is a folder called `BrokenAdvTM`, which contains an advanced version of the TeachingMachine where someone was trying to add a points and reward system.
+- This implementation adds a `TMRewards` class that stores information about potential rewards that could be tied to a problem, including the text that should display to the screen and a points modifier.
+  - The data file is read in the `TMCourse` constructor when a new course is created, and every reward is randomly dispersed amongst the possible questions.
+- Unfortunately there are several mistakes in the implementation. Your task in this problem is to identify those mistakes and fix them so that the program runs as intended.
+   - There are only 3 mistakes in the file, requiring only editing about 5 lines of code
+
+
+## Issue 1
+- Likely the first issue you are faced with is
 
 ## Problem 2
 :::incremental

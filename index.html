@@ -76,10 +76,59 @@ happening. This is one reason why we break things up into classes and
 separate those classes across multiple files, but if you don’t have a
 mental model of what is responsible for what, this division of
 responsibilities won’t help you.</li>
-<li class="fragment">Remember to <strong>save</strong> a file after you
-have edited it!</li>
 </ul>
 </div></li>
+</ul>
+</section>
+<section id="drilling-in" class="slide level2">
+<h2>Drilling In</h2>
+<ul>
+<li>Error messages will tell you exactly in what file and what line the
+error occurred: pay attention to this!
+<ul>
+<li>Keep in mind that this is where the error occurred,
+<strong>not</strong> necessarily where the mistake occurred. But is a
+good starting point.</li>
+<li>If you can’t find an error near this point, where else do you have
+code that creates or modifies the object involved?</li>
+</ul></li>
+<li>Are you getting an illegal operation error? Go to just before that
+line and print out the elements involved. Something is not what you
+think it is.</li>
+<li>Don’t forget that you can set break points in VSCode and run the
+code in debug mode! This can be easier sometimes than just using print
+statements.</li>
+</ul>
+</section>
+<section id="problem-1" class="slide level2">
+<h2>Problem 1</h2>
+<ul>
+<li>In the materials for this section is a folder called
+<code class="python">BrokenAdvTM</code>, which contains an advanced
+version of the TeachingMachine where someone was trying to add a points
+and reward system.</li>
+<li>This implementation adds a <code class="python">TMRewards</code>
+class that stores information about potential rewards that could be tied
+to a problem, including the text that should display to the screen and a
+points modifier.
+<ul>
+<li>The data file is read in the <code class="python">TMCourse</code>
+constructor when a new course is created, and every reward is randomly
+dispersed amongst the possible questions.</li>
+</ul></li>
+<li>Unfortunately there are several mistakes in the implementation. Your
+task in this problem is to identify those mistakes and fix them so that
+the program runs as intended.
+<ul>
+<li>There are only 3 mistakes in the file, requiring only editing about
+5 lines of code</li>
+</ul></li>
+</ul>
+</section>
+<section id="issue-1" class="slide level2">
+<h2>Issue 1</h2>
+<ul>
+<li>Likely the first issue you are faced with is</li>
 </ul>
 </section>
 <section id="problem-2" class="slide level2">
