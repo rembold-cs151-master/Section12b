@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Jed Rembold and Eric Roberts">
-  <title>Title</title>
+  <title>Section 13: Continuing the Adventure</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -16,11 +16,8 @@
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
-    ul.task-list[class]{list-style: none;}
+    ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
-      font-size: inherit;
       width: 0.8em;
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
@@ -36,16 +33,145 @@
     <div class="slides">
 
 <section id="title-slide">
-  <h1 class="title">Title</h1>
+  <h1 class="title">Section 13: Continuing the Adventure</h1>
   <p class="author">Jed Rembold and Eric Roberts</p>
-  <p class="date">Date</p>
+  <p class="date">Week of April 22nd</p>
+<div class="titlelinks">
+<a title="Template Repo" href="https://github.com/rembold-cs151-master/Section12b"><i class="fa-solid fa-folder-tree"></i></a>
+<a title="Template Zip"  href="https://github.com/rembold-cs151-master/Section12b/zipball/master/"><i class="fa-solid fa-file-zipper"></i></a>
+<a title="Questions"     href="https://github.com/rembold-cs151-master/Section12b/raw/main/SectionQuestions.pdf"><i class="fa-solid fa-file-pdf"></i></a>
+</div>
 </section>
 
-<section id="problem-1" class="slide level2">
-<h2>Problem 1</h2>
+<section id="a-buggy-adventure" class="slide level2">
+<h2>A Buggy Adventure</h2>
 <ul>
-<li>Is here!</li>
+<li>As Adventure builds in complexity, your debugging skills will likely
+be challenged, as there are many things to think about.</li>
+<li>Code for Adventure is split across 3-4 files: how do you determine
+which file is problematic?</li>
+<li>Adventure makes extensive use of classes: how do you decide if the
+problem is in how you are <em>using</em> the class object, or in how you
+<em>defined</em> the class methods?</li>
 </ul>
+</section>
+<section id="general-tips" class="slide level2">
+<h2>General Tips</h2>
+<ul>
+<li><p>Whenever working on more complicated code, some general practices
+can help:</p>
+<div>
+<ul>
+<li class="fragment">Test early, test often. Write the minimal amount of
+code necessary before running the program to see if that code works.
+This constrains possible errors (usually) to the small piece of code
+that you just wrote.</li>
+<li class="fragment">Choosing strong variable names can be a lifesaver.
+Naming things is difficult, but naming things well can save you hours of
+frustrated debugging only to realize that you confused your
+variables.</li>
+<li class="fragment">Always keep a mental model (or make yourself a
+picture you can refer to) about where in the program certain things are
+happening. This is one reason why we break things up into classes and
+separate those classes across multiple files, but if you don’t have a
+mental model of what is responsible for what, this division of
+responsibilities won’t help you.</li>
+<li class="fragment">Remember to <strong>save</strong> a file after you
+have edited it!</li>
+</ul>
+</div></li>
+</ul>
+</section>
+<section id="problem-2" class="slide level2">
+<h2>Problem 2</h2>
+<div>
+<ul>
+<li class="fragment">Currently, the
+<code class="python">TeachingMachine.py</code> program gives no feedback
+when the user gives an incorrect answer.
+<ul>
+<li class="fragment">Quickly brainstorm some ways you could try to
+implement this? What extra data structures might you need?</li>
+</ul></li>
+<li class="fragment">There are many possible strategies, but the one
+Will Crowther arrived at was reusing the
+<code class="python">AdvRoom</code> class
+(<code class="python">TMQuestion</code> here)
+<ul>
+<li class="fragment">Want the new “question” to display text to the
+screen, but <strong>not</strong> to prompt the user for a response</li>
+<li class="fragment">Instead, a <code class="python">FORCED</code>
+response in the <code class="python">answers</code> dictionary indicates
+that the program should <strong>immediately</strong> proceed to the
+indicated question</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="forced-questions" class="slide level2">
+<h2>Forced Questions</h2>
+<ul>
+<li><p>An example of such a question might look like:</p>
+<pre ><code class="text">Q3Resp
+You forgot to divide by 2.
+-----
+FORCED: Q3</code></pre></li>
+<li><p>Implementing this in <code class="python">TMCourse.py</code>
+requires only a small change:</p>
+<ul>
+<li>The <code class="python">run</code> method for
+<code class="python">TMCourse</code> is shown on the next slide.
+Identify on what lines changes will need to be made.</li>
+<li>Make the changes to allow for <code class="python">FORCED</code>
+questions in the Teaching Machine.</li>
+</ul></li>
+</ul>
+</section>
+<section id="tmcourse.run" class="slide level2"
+data-auto-animate="true">
+<h2
+data-auto-animate="true"><code class="python">TMCourse.run</code></h2>
+<pre data-id="mycode"><code class="mypython" style="max-height:950px; font-size:.8em" data-line-numbers="|8-9">def run(self):
+    """Steps through the questions in this course."""
+    current = "START"
+    while current != "EXIT":
+        question = self._questions[current]
+        for line in question.get_text():
+            print(line)
+        answers = question.get_answers()
+        response = input("> ").strip().upper()
+        next_question = answers.get(response, None)
+        if next_question is None:
+            next_question = answers.get("*", None)
+        if next_question is None:
+            print("I don't understand that response.")
+        else:
+            current = next_question</code></pre>
+</section>
+<section id="tmcourse.run-1" class="slide level2"
+data-auto-animate="true">
+<h2
+data-auto-animate="true"><code class="python">TMCourse.run</code></h2>
+<pre data-id="mycode"><code class="mypython" style="max-height:950px; font-size:.8em" data-line-numbers="8,11|9-10|19-20">def run(self):
+    """Steps through the questions in this course."""
+    current = "START"
+    while current != "EXIT":
+        question = self._questions[current]
+        for line in question.get_text():
+            print(line)
+        answers = question.get_answers()
+        forced_question = answers.get("FORCED", None)
+        if forced_question is None:
+            response = input("> ").strip().upper()
+            next_question = answers.get(response, None)
+            if next_question is None:
+                next_question = answers.get("*", None)
+            if next_question is None:
+                print("I don't understand that response.")
+            else:
+                current = next_question
+        else:
+            current = forced_question</code></pre>
 </section>
     </div>
   </div>
@@ -64,9 +190,14 @@
   <!--<script src="./js/revealjs/../other_plugins/reveald3/reveald3.js"></script>,-->
   <script src="./js/revealjs/plugin/math/math.js"></script>
   <script src="./js/revealjs/plugin/highlight/highlight.js"></script>
+  <script src="./js/revealjs/../python_language.js"></script>
+
+  // Font Awesome Characters
+  <script src="https://kit.fontawesome.com/4bc05635b0.js" crossorigin="anonymous"></script>
 
   // Code Tracing
   <script src="./js/revealjs/../codetrace.js"></script>
+
 
   <script>
 
@@ -176,6 +307,11 @@
 		  <!--},-->
 		  CommonHTML: {scale: 80},
 		},
+          highlight: {
+            beforeHighlight: hljs => hljs.registerLanguage("mypython", function(hljs) {
+              console.log(mypythondef);
+              return mypythondef(hljs); } )
+          },
         // reveal.js plugins
         plugins: [
 		  RevealMath,
@@ -214,5 +350,17 @@
 		],
       });
     </script>
+  <script>
+  // This is admitedly a very hacky way to achieve my pseudo code highlighting, but it works?
+    function remove_bars() {
+      var pseudoBlocks = document.getElementsByClassName("hljs-pseudo");
+      console.log(pseudoBlocks);
+      for ( var i = 0; i < pseudoBlocks.length; i++) {
+        pseudoBlocks[i].innerHTML = pseudoBlocks[i].innerHTML.replaceAll("\|\|\|", "");
+      }
+      }
+    // omg this is even more hacky now, but I need this to run after hljs has done its thing
+    setTimeout(remove_bars, 100);
+  </script>
     </body>
 </html>
