@@ -1,20 +1,81 @@
 ---
-title: "Section 13: Continuing the Adventure"
+title: "Section 12: The Adventure"
 author: Jed Rembold and Eric Roberts
-date: "Week of April 22nd"
+date: "Week of November 18th"
 slideNumber: true
 theme: monokai
 highlightjs-theme: monokai
 width: 1920
 height: 1080
-transition: fade
+transition: slide
 css:
   - css/codetrace.css
   - css/roberts.css
 content_url: https://github.com/rembold-cs151-master/Section12b
 ---
 
+## The Adventure Begins
+- In terms of the amount of code to write, Adventure is roughly comparable to the Breakout project. What makes Adventure challenging though is the interconnection of its various data structures.
+- The project includes 3 separate classes:
+  - `AdvGame`
+  - `AdvRoom`
+  - `AdvItem`
+  
+  each of which internally utilize Python lists, dictionaries, and tuples
 
+## Adventure Strategies:
+:::incremental
+- Ensure that you thoroughly understand the `TeachingMachine.py` program before moving on to Adventure. 
+  - Most of the parts you need are already there, you just need to determine how to adapt them.
+- Don't try to keep the entire data structure in your head all at once. 
+  - Consider each class, figure out what it does, and then think abstractly about what that class represents rather than worrying about the details
+- Keep close track of what Python types your variables are storing. 
+  - Choose good variable names that help you remember specifically what a particular variable is storing. Students thinking a variable has one thing in it when it is actually storing a different data type is a very common source of confusion with Adventure.
+:::
+
+## Understanding the Teaching Machine
+:::{style='font-size:.9em'}
+- Like the Adventure project, the `TeachingMachine.py` program is data-driven, encoding the details of its operation in data files rather than in the program itself
+- The `TeachingMachine.py` program begins by reading in a data file and translating the human-readable contents of the file into an internal data structure, shown on the next slide.
+- When designing the internal data structure for data-driven applications, you should consider what types of common operations the structure needs to support.
+  - In the Teaching Machine, each question specifies a collection of possible answers, each of which directs to a new question. Such a relationship suggests a dictionary would be useful.
+  - Similarly, the course as a whole consists of a collection of questions referenced by a unique name. Thus, once again a dictionary seems like the best internal structure.
+:::
+
+
+## Teaching Structure
+![](./images/TeachingMachine.svg)
+
+# Problem 1
+## Matching text to data structure
+- As a first step toward making the conversion to the Adventure program, it is useful to draw out a similar diagram showing the desired internal data structure for the Adventure game
+- In this problem you'll just focus on the `AdvRoom` class.
+  - The next slide shows the contents of the first room of the `TinyRooms.txt` data file, one of the three supplied to you with the Adventure project. Draw a pencil-and-paper diagram showing what a **filled** internal data structure would look like.
+  - The format of the data file has something extra that the Teaching Machine did not have: a short description. How should you incorporate that?
+  - Clearly indicate the new names you will assign to each of the attributes
+
+
+## `TinyRooms.txt` (Room 1)
+```{.text style='max-height:900px; font-size:.8em'}
+OutsideBuilding
+Outside building
+You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and
+down a gully to the south.  A road runs up a small hill
+to the west.
+-----
+WEST: EndOfRoad
+UP: EndOfRoad
+NORTH: InsideBuilding
+IN: InsideBuilding
+SOUTH: Valley
+DOWN: Valley
+```
+
+## Problem 1: One Solution
+![](./images/AdvRooms.svg)
+
+# Problem 2
 ## A Buggy Adventure
 - As Adventure builds in complexity, your debugging skills will likely be challenged, as there are many things to think about.
 - Code for Adventure is split across 3-4 files: how do you determine which file is problematic?
@@ -30,14 +91,14 @@ content_url: https://github.com/rembold-cs151-master/Section12b
   :::
 
 ## Drilling In
-- Error messages will tell you exactly in what file and what line the error occurred: pay attention to this!
+- Error messages will tell you exactly in _what file_ and _what line_ the error occurred: pay attention to this!
   - Keep in mind that this is where the error occurred, **not** necessarily where the mistake occurred. But it is a good starting point.
   - If you can't find an error near this point, where else do you have code that creates or modifies the object involved? Probably in that object's class definition?
 - Are you getting an illegal operation error? Go to just before that line and print out the elements involved. Something is not what you think it is.
 - Don't forget that you can set break points in VSCode and run the code in debug mode! This can be easier sometimes than just using print statements.
 
 
-## Problem 1
+## Problem 2
 - In the materials for this section is a folder called `BrokenAdvTM`, which contains an advanced version of the TeachingMachine where someone was trying to add a points and reward system.
 - This implementation adds a `TMRewards` class that stores information about potential rewards that could be tied to a problem, including the text that should display to the screen and a points modifier.
   - The rewards data file is read inside the `TMCourse` constructor when a new course is created, and every reward is randomly dispersed amongst the possible questions.
@@ -48,16 +109,18 @@ content_url: https://github.com/rembold-cs151-master/Section12b
 ## Issue 1
 :::incremental
 - Likely the first issue you are faced with is about a string having no attribute `add_reward`, which is true!
-- It is important not to confuse the name of something with the custom object representing that thing
-  - The name of a question is not the same thing as the `TMQuestion` itself
-- The fix? Use the name of the question as the key to the questions dictionary to retrieve the actual corresponding object, and then `add_reward` to that object
+- It is important not to confuse the _name_ of something with the custom object _representing_ that thing
+  - The name of a question is **not** the same thing as the `TMQuestion` itself
+- Possible fix? 
+  - Use the name of the question as the key to the questions dictionary to retrieve the actual corresponding object, and then call `add_reward` on that object
 :::
 
 ## Issue 2
 :::incremental
 - The second issue you will likely face is when you come across one of the rewarded questions (which might require a bit of testing!) that will complain about list objects having no `get_text` attribute.
 - The list in question is the `rewards` variable that was returned by `.get_rewards()`, which looks to contain a list of all the rewards associated with a problem.
-- Individual reward objects though have a method `get_text()`, so likely what was desired is to loop over the rewards and print the text of each.
+- The fix?
+  - Individual reward objects **do** have a method `get_text()`, so likely what was desired is to loop over the rewards and print the text of each.
 :::
 
 ## Issue 3
@@ -70,7 +133,8 @@ content_url: https://github.com/rembold-cs151-master/Section12b
   - Explicitly read in an extra line after the multiplier
 :::
 
-## Problem 2
+# Problem 3
+## Providing feedback
 :::incremental
 - Currently, the `TeachingMachine.py` program gives no feedback when the user gives an incorrect answer.
   - Quickly brainstorm some ways you could try to implement this? What extra data structures might you need?
