@@ -1,7 +1,7 @@
 ---
-title: "Section 12: The Adventure"
+title: "Section 13: Continuing the Adventure"
 author: Jed Rembold and Eric Roberts
-date: "Week of November 18th"
+date: "Week of April 21st"
 slideNumber: true
 theme: monokai
 highlightjs-theme: monokai
@@ -13,7 +13,7 @@ css:
   - css/roberts.css
 content_url: https://github.com/rembold-cs151-master/Section12b
 ---
-
+<!--
 ## The Adventure Begins
 - In terms of the amount of code to write, Adventure is roughly comparable to the Breakout project. What makes Adventure challenging though is the interconnection of its various data structures.
 - The project includes 3 separate classes:
@@ -74,8 +74,10 @@ DOWN: Valley
 
 ## Problem 1: One Solution
 ![](./images/AdvRooms.svg)
+-->
 
-# Problem 2
+
+# Problem 1
 ## A Buggy Adventure
 - As Adventure builds in complexity, your debugging skills will likely be challenged, as there are many things to think about.
 - Code for Adventure is split across 3-4 files: how do you determine which file is problematic?
@@ -98,7 +100,7 @@ DOWN: Valley
 - Don't forget that you can set break points in VSCode and run the code in debug mode! This can be easier sometimes than just using print statements.
 
 
-## Problem 2
+## Problem 1
 - In the materials for this section is a folder called `BrokenAdvTM`, which contains an advanced version of the TeachingMachine where someone was trying to add a points and reward system.
 - This implementation adds a `TMRewards` class that stores information about potential rewards that could be tied to a problem, including the text that should display to the screen and a points modifier.
   - The rewards data file is read inside the `TMCourse` constructor when a new course is created, and every reward is randomly dispersed amongst the possible questions.
@@ -133,7 +135,7 @@ DOWN: Valley
   - Explicitly read in an extra line after the multiplier
 :::
 
-# Problem 3
+# Problem 2
 ## Providing feedback
 :::incremental
 - Currently, the `TeachingMachine.py` program gives no feedback when the user gives an incorrect answer.
