@@ -13,72 +13,8 @@ css:
   - css/roberts.css
 content_url: https://github.com/rembold-cs151-master/Section12b
 ---
-<!--
-## The Adventure Begins
-- In terms of the amount of code to write, Adventure is roughly comparable to the Breakout project. What makes Adventure challenging though is the interconnection of its various data structures.
-- The project includes 3 separate classes:
-  - `AdvGame`
-  - `AdvRoom`
-  - `AdvItem`
-  
-  each of which internally utilize Python lists, dictionaries, and tuples
 
-## Adventure Strategies:
-:::incremental
-- Ensure that you thoroughly understand the `TeachingMachine.py` program before moving on to Adventure. 
-  - Most of the parts you need are already there, you just need to determine how to adapt them.
-- Don't try to keep the entire data structure in your head all at once. 
-  - Consider each class, figure out what it does, and then think abstractly about what that class represents rather than worrying about the details
-- Keep close track of what Python types your variables are storing. 
-  - Choose good variable names that help you remember specifically what a particular variable is storing. Students thinking a variable has one thing in it when it is actually storing a different data type is a very common source of confusion with Adventure.
-:::
-
-## Understanding the Teaching Machine
-:::{style='font-size:.9em'}
-- Like the Adventure project, the `TeachingMachine.py` program is data-driven, encoding the details of its operation in data files rather than in the program itself
-- The `TeachingMachine.py` program begins by reading in a data file and translating the human-readable contents of the file into an internal data structure, shown on the next slide.
-- When designing the internal data structure for data-driven applications, you should consider what types of common operations the structure needs to support.
-  - In the Teaching Machine, each question specifies a collection of possible answers, each of which directs to a new question. Such a relationship suggests a dictionary would be useful.
-  - Similarly, the course as a whole consists of a collection of questions referenced by a unique name. Thus, once again a dictionary seems like the best internal structure.
-:::
-
-
-## Teaching Structure
-![](./images/TeachingMachine.svg)
-
-# Problem 1
-## Matching text to data structure
-- As a first step toward making the conversion to the Adventure program, it is useful to draw out a similar diagram showing the desired internal data structure for the Adventure game
-- In this problem you'll just focus on the `AdvRoom` class.
-  - The next slide shows the contents of the first room of the `TinyRooms.txt` data file, one of the three supplied to you with the Adventure project. Draw a pencil-and-paper diagram showing what a **filled** internal data structure would look like.
-  - The format of the data file has something extra that the Teaching Machine did not have: a short description. How should you incorporate that?
-  - Clearly indicate the new names you will assign to each of the attributes
-
-
-## `TinyRooms.txt` (Room 1)
-```{.text style='max-height:900px; font-size:.8em'}
-OutsideBuilding
-Outside building
-You are standing at the end of a road before a small brick
-building.  A small stream flows out of the building and
-down a gully to the south.  A road runs up a small hill
-to the west.
------
-WEST: EndOfRoad
-UP: EndOfRoad
-NORTH: InsideBuilding
-IN: InsideBuilding
-SOUTH: Valley
-DOWN: Valley
-```
-
-## Problem 1: One Solution
-![](./images/AdvRooms.svg)
--->
-
-
-# Problem 1
-## A Buggy Adventure
+## Debugging: The Real Adventure
 - As Adventure builds in complexity, your debugging skills will likely be challenged, as there are many things to think about.
 - Code for Adventure is split across 3-4 files: how do you determine which file is problematic?
 - Adventure makes extensive use of classes: how do you decide if the problem is in how you are _using_ the class object, or in how you _defined_ the class methods?
@@ -100,7 +36,8 @@ DOWN: Valley
 - Don't forget that you can set break points in VSCode and run the code in debug mode! This can be easier sometimes than just using print statements.
 
 
-## Problem 1
+# Problem 1
+## Problem 1: Buggy Rewards
 - In the materials for this section is a folder called `BrokenAdvTM`, which contains an advanced version of the TeachingMachine where someone was trying to add a points and reward system.
 - This implementation adds a `TMRewards` class that stores information about potential rewards that could be tied to a problem, including the text that should display to the screen and a points modifier.
   - The rewards data file is read inside the `TMCourse` constructor when a new course is created, and every reward is randomly dispersed amongst the possible questions.
