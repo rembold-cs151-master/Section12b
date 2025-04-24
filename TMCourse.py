@@ -25,9 +25,9 @@ class TMCourse:
         current = "START"
         while current != "EXIT":
             question = self._questions[current]
-            answers = question.get_answers()
             for line in question.get_text():
                 print(line)
+            answers = question.get_answers()
             response = input("> ").strip().upper()
             next_question = answers.get(response, None)
             if next_question is None:
